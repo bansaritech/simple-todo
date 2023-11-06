@@ -1,7 +1,7 @@
 {
   "name": "Direct Message",
   "short_name": "DM",
-  "start_url": "/",
+  "start_url": "/wa-mob-num/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
