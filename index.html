@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Title -->
+    <title>Whatsapp Msg</title>
+
+    <!-- Meta Informations -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whatsapp Msg</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="manifest.json">
+    <meta name="description" content="Send whatsapp message, without saving the contact number">
+    <meta name="keywords" content="Direct message, whatsapp message, whatsapp, message, without save">
+    <meta name="author" content="Harikrushna V. Adiecha">
 
+    <!-- Links -->
+    <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="icon.png">
     <link rel="icon" type="image/png" sizes="16x16" href="icon.png">
     <link rel="shortcut icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
     <div class="max-w-md w-full p-4 bg-white shadow-md rounded-md">
         <div class="flex flex-row">
             <img src="data:image/png;base64,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" class="w-10 h-10"/>
@@ -26,19 +33,29 @@
             <button onclick="msg()" class="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all">Send Message</button>
         </div>
     </div>
+
+    <div class="py-4 max-w-md w-full text-right">
+      <button onclick="msg(sharedTxt())">Share 🚀</button>
+    </div>
+
     <script>
-        function msg() {
-            let contact = '91' + document.getElementById('mob').value;
-            location.href = `https://wa.me/${contact}?text=Hi`;
+        function sharedTxt() {
+            return addUrlTo('Hey, Check out this app, it will help to send message without saving contact number.\n\n');
         }
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(function(registration) {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                })
-                .catch(function(error) {
-                    console.error('Service Worker registration failed:', error);
-                });
+        function addUrlTo(msg = '') {
+            let url = 'https://bansaritech.github.io/wa-mob-num/';
+            // let url = 'http://localhost:5555/';
+            return msg + url;
+        }
+        function msg(msg = 'Hi') {
+            let code = '91';
+            let mobile = document.getElementById('mob').value.trim();
+            if(/\d{10}/.test(mobile)) {
+                location.href = `https://wa.me/${code + mobile}?text=${encodeURI(msg)}`;
+            } else {
+                let err = mobile.length === 0 ? 'Please add mobile number first.' : `Mobile Number [${mobile}] is not valid.`;
+                alert(err);
+            }
         }
     </script>
 </body>
