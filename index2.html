@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Manager with Alpine.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .todo-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .todo-item button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="todo-container" x-data="todoApp()" x-init="init()">
+    <h1 class="text-center">Todo Manager</h1>
+
+    <!-- Todo Input -->
+    <div class="flex mb-4">
+        <input type="text" x-model="newTodo" @keyup.enter="addTodo" placeholder="Enter a new todo..." class="p-2 border rounded-md flex-1 mr-2">
+        <button @click="addTodo" class="bg-blue-500 text-white py-2 px-4 rounded-md">Add</button>
+    </div>
+
+    <!-- Todo List -->
+    <div>
+        <template x-for="(todo, index) in todos" :key="index">
+            <div class="todo-item">
+                <span x-text="todo"></span>
+                <button @click="removeTodo(index)">Delete</button>
+            </div>
+        </template>
+    </div>
+</div>
+
+<script>
+    function todoApp() {
+        return {
+            newTodo: '',
+            todos: [],
+
+            // Initialize the data from local storage if available
+            init() {
+                const savedTodos = JSON.parse(localStorage.getItem('todos'));
+                if (savedTodos) {
+                    this.todos = savedTodos;
+                }
+            },
+
+            // Add a new todo item
+            addTodo() {
+                if (this.newTodo.trim() === '') return;
+                this.todos.push(this.newTodo.trim());
+                this.newTodo = ''; // Clear input field
+                this.saveToLocalStorage();
+            },
+
+            // Remove a todo item
+            removeTodo(index) {
+                this.todos.splice(index, 1);
+                this.saveToLocalStorage();
+            },
+
+            // Save todos to local storage
+            saveToLocalStorage() {
+                localStorage.setItem('todos', JSON.stringify(this.todos));
+            }
+        };
+    }
+</script>
+
+</body>
+</html>

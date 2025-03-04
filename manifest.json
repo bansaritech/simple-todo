@@ -1,6 +1,6 @@
 {
-  "name": "Direct Message",
-  "short_name": "DM",
+  "name": "Todo",
+  "short_name": "Todo",
   "start_url": "/wa-mob-num/",
   "display": "standalone",
   "background_color": "#ffffff",
