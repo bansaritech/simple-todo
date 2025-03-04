@@ -50,7 +50,8 @@
             </template>
 
             <div class="flex flex-row items-center justify-between gap-x-2">
-                <button @click="clearAll()" class="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all px-4">All Clear</button>
+                <button @click="clearAll()" class="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all px-4">Clear All</button>
+                <button @click="resetAll()" class="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all px-4">Reset All</button>
                 <button @click="addTodo()" class="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all px-4">Add</button>
             </div>
         </div>
@@ -92,14 +93,29 @@
             },
 
             clearAll() {
-                this.todos = [];
-                localStorage.removeItem('todos')
+                if (confirm('Are you sure you want to clear all task?')) {
+                    this.todos = [];
+                    localStorage.removeItem('todos')
+                }
+            },
+
+            resetTodo(todo) {
+                todo.slots = []
+                todo.started_at = null
+            },
+
+            resetAll() {
+                if (confirm('Are you sure you want to reset timer for all task?')) {
+                    this.todos.forEach(t => this.resetTodo(t))
+                }
             },
 
             // Remove a todo item
             removeTodo(index) {
-                this.todos.splice(index, 1);
-                this.saveToLocalStorage();
+                if (confirm('Are you sure you want to remove this task?')) {
+                    this.todos.splice(index, 1);
+                    this.saveToLocalStorage();
+                }
             },
 
             startTodo(todo) {
