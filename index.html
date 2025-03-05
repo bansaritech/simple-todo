@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <!-- Title -->
-    <title>Whatsapp Msg</title>
+    <title>ToDo</title>
 
     <!-- Meta Informations -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000">
-    <meta name="description" content="Send whatsapp message, without saving the contact number">
-    <meta name="keywords" content="Direct message, whatsapp message, whatsapp, message, without save">
+    <meta name="description" content="Maintian daily todo list or track of time spend in each task">
+    <meta name="keywords" content="ToDo, Timer, Tracker">
     <meta name="author" content="Harikrushna V. Adiecha">
 
     <!-- Links -->
@@ -19,141 +19,149 @@
     <link rel="icon" type="image/png" sizes="16x16" href="icon.png">
     <link rel="shortcut icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
 
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-    <div x-data="todoApp()" x-init="init()">
-        <h1 class="text-3xl text-center mb-3">ToDo</h1>
-        <div class="max-w-md w-full p-4 bg-white shadow-md rounded-md">
-            <template x-for="(todo, index) in todos" :key="index">
-                <div class="flex flex-row items-center space-x-2 mb-4">
-                    <button @click="removeTodo(index)" class="bg-gray-200 py-2 rounded-md hover:bg-red-300 hover:text-white transition-all px-4">
-                        🗑️
-                    </button>
-                    <input x-model="todo.content" type="text" placeholder="" class="p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-400 w-full">
-                    <span class="bg-gray-200 text-gray-600 py-2 rounded-md transition-all px-4" x-text="timeTxt[index]">
-                    </span>
+<body class="bg-gray-100 p-6">
+    <div class="h-full bg-gray-100 p-6" x-data="todoApp()" x-init="init()">
+      <div class="mx-auto max-w-md space-y-4">
+      
+        <!-- Another Regular Task Card -->
+        <template x-for="(todo, index) in todos" :key="index">
+            <div @click="toggle(todo)"
+                :class="{'rounded-lg p-4 shadow-sm': true,'bg-white': !todo.started_at || todo.started_at == null, 'border-2 border-blue-200 bg-blue-50': todo.started_at > 0}" >
+                <div class="flex items-start justify-between">
+                    <div class="">
+                        <h3 :class="{'text-lg font-semibold': true, 'text-gray-800': !todo.started_at || todo.started_at == null, 'text-blue-800': todo.started_at > 0}" x-text="todo.content"></h3>
+                        <p class="mt-1 text-sm text-gray-500" x-text="timeTxt[index] || '0s'"></p>
+                    </div>
                     <template x-if="!todo.started_at || todo.started_at == null">
-                        <button @click="startTodo(todo)" class="bg-transparent text-gray-800 rounded-md transition-all px-2 text-4xl">
-                            ▶️
+                        <button @click.stop="removeTodo(index)" class="m-2 rounded-lg bg-red-100 p-2 text-gray-400 hover:bg-red-500 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
                         </button>
                     </template>
-                    <template x-if="todo.started_at > 0">
-                        <button @click="stopTodo(todo)" class="bg-transparent text-gray-800 rounded-md transition-all px-2 text-4xl">
-                            ⏹️
-                        </button>
-                    </template>
-
                 </div>
-            </template>
-
-            <div class="flex flex-row items-center justify-between gap-x-2">
-                <button @click="clearAll()" class="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all px-4">Clear All</button>
-                <button @click="resetAll()" class="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all px-4">Reset All</button>
-                <button @click="addTodo()" class="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all px-4">Add</button>
             </div>
+        </template>
+
+        <div class="fixed bottom-0 left-0 grid w-full grid-cols-3 bg-gray-300 shadow-xl">
+          <button @click="clearAll()" class="border border-gray-400 bg-red-200 p-3 text-center text-gray-600">
+            Delete All
+          </button>
+          <button @click="resetAll()" class="border border-gray-400 bg-blue-200 p-3 text-center text-gray-600">
+            Reset All
+          </button>
+          <button @click="addTodo()" class="border border-gray-400 bg-green-200 p-3 text-center text-gray-600">
+            Add New 
+          </button>
         </div>
+      </div>
     </div>
-    
+
     <script>
-    function todoApp() {
-        return {
-
-            todos: [],
-            currentTime: Date.now(),
-
-            // Initialize the data from local storage if available
-            init() {
-                const savedTodos = JSON.parse(localStorage.getItem('todos'));
-                if (savedTodos) {
-                    this.todos = savedTodos;
-                }
-                this.startTimer();
-            },
-
-            // This function will update currentTime every second using x-effect
-            startTimer() {
-                // Create an interval that will update the currentTime every second
-                setInterval(() => {
-                    this.currentTime = Date.now(); // Update the current time every second
-                }, 1000);
-            },
-
-            // Add a new todo item
-            addTodo() {
-                newTodo = prompt('Enter new todo')
-                if (newTodo.trim() === '') return;
-                this.todos.push({
-                    content: newTodo.trim(),
-                    slots: []
-                });
-                this.saveToLocalStorage();
-            },
-
-            clearAll() {
-                if (confirm('Are you sure you want to clear all task?')) {
+        function todoApp() {
+            return {
+    
+                todos: [],
+    
+                // Initialize the data from local storage if available
+                init() {
+                    const savedTodos = JSON.parse(localStorage.getItem('todos'));
+                    if (savedTodos) {
+                        this.todos = savedTodos;
+                    }
+                    this.startTimer();
+                },
+    
+                // This function will update currentTime every second using x-effect
+                startTimer() {
+                    // Create an interval that will update the currentTime every second
+                    setInterval(() => {
+                        this.currentTime = Date.now(); // Update the current time every second
+                    }, 1000);
+                },
+    
+                // Add a new todo item
+                addTodo() {
+                    newTodo = prompt('Enter new todo')
+                    if (newTodo.trim() === '') return;
+                    this.todos.push({
+                        content: newTodo.trim(),
+                        slots: []
+                    });
+                    this.saveToLocalStorage();
+                },
+    
+                clearAll() {
                     this.todos = [];
                     localStorage.removeItem('todos')
-                }
-            },
-
-            resetTodo(todo) {
-                todo.slots = []
-                todo.started_at = null
-            },
-
-            resetAll() {
-                if (confirm('Are you sure you want to reset timer for all task?')) {
+                },
+    
+                resetTodo(todo) {
+                    todo.slots = []
+                    todo.started_at = null
+                },
+    
+                resetAll() {
                     this.todos.forEach(t => this.resetTodo(t))
-                }
-            },
-
-            // Remove a todo item
-            removeTodo(index) {
-                if (confirm('Are you sure you want to remove this task?')) {
+                },
+    
+                // Remove a todo item
+                removeTodo(index) {
                     this.todos.splice(index, 1);
                     this.saveToLocalStorage();
+                },
+    
+                startTodo(todo) {
+                    this.todos.filter(t => t.started_at && t != todo).forEach(t => this.stopTodo(t))
+                    todo.started_at = Date.now()
+                    this.saveToLocalStorage();
+                },
+    
+                stopTodo(todo) {
+                    todo.slots.push({
+                        from: todo.started_at,
+                        to: Date.now()
+                    })
+                    todo.started_at = null
+                    // this.todos.splice(index, 1);
+                    this.saveToLocalStorage();
+                },
+   
+                toggle(todo) {
+                    if (!todo.started_at || todo.started_at == null) {
+                        this.startTodo(todo)
+                    } else {
+                        this.stopTodo(todo)
+                    }
+                },
+
+                get timeTxt() {
+                    return this.todos.map((todo) => {
+                        const prev = todo.slots.map((s) => s.to - s.from).reduce((c, i) => c + i, 0);
+                        const td = prev + ((!todo.started_at) ? 0 : (this.currentTime - todo.started_at));
+
+                        // console.log(prev, td, prev + td)
+                        const hh = Math.floor(td / (1000 * 60 * 60)); // 1 hour = 1000 * 60 * 60 milliseconds
+                        const mm = Math.floor((td % (1000 * 60 * 60)) / (1000 * 60)); // 1 minute = 1000 * 60 milliseconds
+                        const ss = Math.floor((td % (1000 * 60)) / 1000);
+
+                        // Format hours and minutes as "hh:mm"
+                        return [hh > 0  ? `${hh}h` : '', mm > 0 ? `${mm}m`:'', ss > 0 ? `${ss}s`: ''].filter(s => s != '').join(' ');
+                        
+                    })
+                },
+    
+                // Save todos to local storage
+                saveToLocalStorage() {
+                    localStorage.setItem('todos', JSON.stringify(this.todos));
                 }
-            },
-
-            startTodo(todo) {
-                this.todos.filter(t => t.started_at && t != todo).forEach(t => this.stopTodo(t))
-                todo.started_at = Date.now()
-                this.saveToLocalStorage();
-            },
-
-            stopTodo(todo) {
-                todo.slots.push({
-                    from: todo.started_at,
-                    to: Date.now()
-                })
-                todo.started_at = null
-                // this.todos.splice(index, 1);
-                this.saveToLocalStorage();
-            },
-
-            get timeTxt() {
-                return this.todos.map((todo) => {
-                    const prev = todo.slots.map((s) => s.to - s.from).reduce((c, i) => c + i, 0);
-                    const td = prev + ((!todo.started_at) ? 0 : (this.currentTime - todo.started_at));
-                    // console.log(prev, td, prev + td)
-                    const hh = Math.floor(td / (1000 * 60 * 60)); // 1 hour = 1000 * 60 * 60 milliseconds
-                    const mm = Math.floor((td % (1000 * 60 * 60)) / (1000 * 60)); // 1 minute = 1000 * 60 milliseconds
-                    const ss = Math.floor((td % (1000 * 60)) / 1000);
-                    // Format hours and minutes as "hh:mm"
-                    return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
-                    
-                })
-            },
-
-            // Save todos to local storage
-            saveToLocalStorage() {
-                localStorage.setItem('todos', JSON.stringify(this.todos));
-            }
-        };
-    }
-    </script>
+            };
+        }
+        </script>
+    
 </body>
 </html>
