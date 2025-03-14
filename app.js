@@ -11,7 +11,6 @@ function todoApp() {
             if (savedTodos) {
                 this.todos = savedTodos;
             }
-            window.addEventListener('keydown', this.keyboardShortcuts);
             this.startTimer();
         },
 
@@ -21,27 +20,6 @@ function todoApp() {
             setInterval(() => {
                 this.currentTime = Date.now(); // Update the current time every second
             }, 1000);
-        },
-
-        // Key-board shortcuts.
-        keyboardShortcuts(event) {
-            if (event.ctrlKey) {
-                switch (event.key) {
-                    case "n": // Ctrl + N => Create new Todo
-                        event.preventDefault(); // Prevent default browser action
-                        this.addTodo();
-                        break;
-                    case "d": // Ctrl + D => Delete all Todos
-                        event.preventDefault(); // Prevent default browser action
-                        this.deleteAll()
-                        break;
-                    case "r": // Ctrl + R => Reset all Todo's time to zero
-                        event.preventDefault(); // Prevent default browser action
-                        this.resetAll()
-                        break;
-                }
-            }
-        
         },
 
         // Add a new todo item
@@ -113,6 +91,10 @@ function todoApp() {
                 return [hh > 0  ? `${hh}h` : '', mm > 0 ? `${mm}m`:'', ss > 0 ? `${ss}s`: ''].filter(s => s != '').join(' ');
                 
             })
+        },
+
+        get isEmpty() {
+            return this.todos.length === 0;
         },
 
         // Save todos to local storage

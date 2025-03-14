@@ -1,0 +1,14 @@
+{
+  "name": "Todo",
+  "version": "1.0.0",
+  "description": "Simple todo for project switching and timer",
+  "manifest_version": 3,
+  "author": "Harikrushna Adiecha",
+  "action":{
+      "default_popup": "index.html",
+      "default_title": "Todo"
+  },
+  "icons": {
+      "128": "icon-128.png"
+  }
+}

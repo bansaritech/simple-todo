@@ -23,7 +23,7 @@
     <script src="//unpkg.com/alpinejs" defer></script>
 
 </head>
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-100 p-6 min-w-80 min-h-80">
     <div class="h-full bg-gray-100 p-6" x-data="todoApp()" x-init="init()">
       <div class="mx-auto max-w-md space-y-4">
       
@@ -47,14 +47,15 @@
             </div>
         </template>
 
-        <template x-if="todos.count === 0">
-
-            <h3 class="text-lg">Create your first todo</h3>
-
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <template x-if="isEmpty">
+          <div class="text-2xl">
+            <h3 class="text-center">Create your first todo</h3>
+            <div class="mt-10 flex justify-center items-center text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-20">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
-            </svg>
-              
+              </svg>
+            </div>
+          </div>
         </template>
 
         <div class="fixed bottom-0 left-0 grid w-full grid-cols-3 bg-gray-300 shadow-xl">
